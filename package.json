@@ -1,0 +1,15 @@
+{
+    "name": "node-red-app",
+    "version": "1.0.0",
+    "description": "Node-RED en Render",
+    "dependencies": {
+      "node-red": "^3.0.0"
+    },
+    "scripts": {
+      "start": "node-red -v"
+    },
+    "engines": {
+      "node": "18.x"
+    }
+  }
+  
