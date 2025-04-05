@@ -1,9 +1,16 @@
-const { exec } = require("child_process");
+const { execSync } = require('child_process');
+const fs = require('fs');
+const https = require('https');
 
-exec("node-red -v", (err, stdout, stderr) => {
-  if (err) {
-    console.error(`Error iniciando Node-RED: ${err}`);
-    return;
-  }
-  console.log(stdout);
+// Descargar flujos desde GitHub al iniciar
+const url = 'https://raw.githubusercontent.com/usuario/repositorio/rama/flows.json';
+const file = fs.createWriteStream('flows.json');
+
+https.get(url, response => {
+  response.pipe(file);
+  file.on('finish', () => {
+    file.close(() => {
+      execSync('node-red -v', { stdio: 'inherit' });
+    });
+  });
 });
