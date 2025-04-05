@@ -3,7 +3,9 @@
     "version": "1.0.0",
     "description": "Node-RED en Render",
     "dependencies": {
-      "node-red": "^3.0.0"
+      "node-red": "^3.0.0",
+      "node-red-dashboard": "^3.6.5",
+      "node-red-contrib-postgresql": "^0.14.2"
     },
     "scripts": {
       "start": "node-red -v"
