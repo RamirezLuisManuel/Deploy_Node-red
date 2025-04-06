@@ -189,84 +189,15 @@
         }
     },
     {
-        "id": "67cb9abb5de516ad",
-        "type": "ui_tab",
-        "name": "Monitoreo de riego",
-        "icon": "dashboard",
-        "order": 2,
-        "disabled": false,
-        "hidden": false
-    },
-    {
         "id": "aa20f74beae7360f",
         "type": "ui_group",
         "name": "Control de bomba",
-        "tab": "67cb9abb5de516ad",
+        "tab": "",
         "order": 1,
         "disp": true,
         "width": "6",
         "collapse": false,
         "className": ""
-    },
-    {
-        "id": "8efa0205ea850ec5",
-        "type": "ui_spacer",
-        "z": "ebd507082ead5a6e",
-        "name": "spacer",
-        "group": "ui_dashboard_group",
-        "order": 1,
-        "width": 1,
-        "height": 1
-    },
-    {
-        "id": "3f5e803f971245a0",
-        "type": "ui_spacer",
-        "z": "ebd507082ead5a6e",
-        "name": "spacer",
-        "group": "ui_dashboard_group",
-        "order": 3,
-        "width": 1,
-        "height": 1
-    },
-    {
-        "id": "19072fb2e716ea3a",
-        "type": "ui_spacer",
-        "z": "ebd507082ead5a6e",
-        "name": "spacer",
-        "group": "ui_dashboard_group",
-        "order": 4,
-        "width": 1,
-        "height": 1
-    },
-    {
-        "id": "c7077ff46f0ed0ef",
-        "type": "ui_spacer",
-        "z": "ebd507082ead5a6e",
-        "name": "spacer",
-        "group": "ui_dashboard_group",
-        "order": 5,
-        "width": 1,
-        "height": 1
-    },
-    {
-        "id": "ad9ef3004f3fb1cb",
-        "type": "ui_spacer",
-        "z": "ebd507082ead5a6e",
-        "name": "spacer",
-        "group": "ui_dashboard_group",
-        "order": 6,
-        "width": 1,
-        "height": 1
-    },
-    {
-        "id": "1f5d1a0370c0fc6a",
-        "type": "ui_spacer",
-        "z": "ebd507082ead5a6e",
-        "name": "spacer",
-        "group": "ui_dashboard_group",
-        "order": 7,
-        "width": 1,
-        "height": 1
     },
     {
         "id": "af90df2d66e6ce83",
@@ -284,7 +215,7 @@
         "z": "ebd507082ead5a6e",
         "name": "spacer",
         "group": "aa20f74beae7360f",
-        "order": 3,
+        "order": 2,
         "width": 1,
         "height": 1
     },
@@ -294,7 +225,7 @@
         "z": "ebd507082ead5a6e",
         "name": "spacer",
         "group": "aa20f74beae7360f",
-        "order": 4,
+        "order": 3,
         "width": 1,
         "height": 1
     },
@@ -304,18 +235,9 @@
         "z": "ebd507082ead5a6e",
         "name": "spacer",
         "group": "aa20f74beae7360f",
-        "order": 5,
+        "order": 4,
         "width": 1,
         "height": 1
-    },
-    {
-        "id": "459573ea9440215e",
-        "type": "ui_tab",
-        "name": "Monitoreo de lluvia",
-        "icon": "dashboard",
-        "order": 3,
-        "disabled": false,
-        "hidden": false
     },
     {
         "id": "7f12a8951ab97da4",
@@ -439,7 +361,7 @@
         "rowsPerMsg": 1,
         "outputs": 1,
         "x": 420,
-        "y": 140,
+        "y": 180,
         "wires": [
             []
         ]
@@ -470,12 +392,12 @@
         "id": "16aa976e817286a6",
         "type": "ui_switch",
         "z": "bdd40c2e4ca0e3d6",
-        "name": "Relevador",
+        "name": "Control manual de la bomba de agua",
         "label": "Control manual de la bomba de agua",
         "tooltip": "",
-        "group": "aa20f74beae7360f",
-        "order": 2,
-        "width": 4,
+        "group": "ui_dashboard_group",
+        "order": 10,
+        "width": 5,
         "height": 2,
         "passthru": true,
         "decouple": "false",
@@ -492,7 +414,7 @@
         "offcolor": "",
         "animate": true,
         "className": "",
-        "x": 390,
+        "x": 470,
         "y": 340,
         "wires": [
             [
@@ -514,8 +436,8 @@
         "correl": "",
         "expiry": "",
         "broker": "58e8acd2af0fc2ef",
-        "x": 630,
-        "y": 340,
+        "x": 730,
+        "y": 240,
         "wires": []
     }
 ]
