@@ -16,6 +16,14 @@
         "env": []
     },
     {
+        "id": "201d42be487cd05b",
+        "type": "tab",
+        "label": "Senso nivel de agua",
+        "disabled": false,
+        "info": "",
+        "env": []
+    },
+    {
         "id": "58e8acd2af0fc2ef",
         "type": "mqtt-broker",
         "name": "broker.emqx.io",
@@ -250,7 +258,7 @@
         "rowsPerMsg": 1,
         "outputs": 1,
         "x": 620,
-        "y": 200,
+        "y": 220,
         "wires": [
             []
         ]
@@ -269,7 +277,7 @@
         "rh": 0,
         "inputs": 0,
         "x": 270,
-        "y": 200,
+        "y": 220,
         "wires": [
             [
                 "7f12a8951ab97da4",
@@ -303,7 +311,7 @@
         "diff": false,
         "className": "",
         "x": 600,
-        "y": 120,
+        "y": 140,
         "wires": []
     },
     {
@@ -345,7 +353,7 @@
         "useDifferentColor": false,
         "className": "",
         "x": 570,
-        "y": 300,
+        "y": 320,
         "wires": [
             []
         ]
@@ -439,5 +447,82 @@
         "x": 730,
         "y": 240,
         "wires": []
+    },
+    {
+        "id": "0a61aa2e8af9a9e0",
+        "type": "mqtt in",
+        "z": "201d42be487cd05b",
+        "name": "Lectura Nivel Agua",
+        "topic": "sensor/nivel_agua",
+        "qos": "2",
+        "datatype": "auto-detect",
+        "broker": "58e8acd2af0fc2ef",
+        "nl": false,
+        "rap": true,
+        "rh": 0,
+        "inputs": 0,
+        "x": 170,
+        "y": 180,
+        "wires": [
+            [
+                "5dcd3dcf2c769b17",
+                "c018587711c6982a"
+            ]
+        ]
+    },
+    {
+        "id": "5dcd3dcf2c769b17",
+        "type": "postgresql",
+        "z": "201d42be487cd05b",
+        "name": "",
+        "query": "INSERT INTO sensor_details (sensor_id, user_id, value) VALUES ('3','1','{{{msg.payload}}}');",
+        "postgreSQLConfig": "0db620e6516a50ee",
+        "split": false,
+        "rowsPerMsg": 1,
+        "outputs": 1,
+        "x": 530,
+        "y": 140,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "172ade43e97eeaf0",
+        "type": "ui_toast",
+        "z": "201d42be487cd05b",
+        "position": "top right",
+        "displayTime": "3",
+        "highlight": "",
+        "sendall": true,
+        "outputs": 0,
+        "ok": "OK",
+        "cancel": "",
+        "raw": false,
+        "className": "",
+        "topic": "sensor/nivel_agua",
+        "name": "Sensor nivel de agua",
+        "x": 600,
+        "y": 320,
+        "wires": []
+    },
+    {
+        "id": "c018587711c6982a",
+        "type": "function",
+        "z": "201d42be487cd05b",
+        "name": "function 1",
+        "func": "let valor = parseInt(msg.payload);\n\nif (isNaN(valor)) {\n    msg.payload = \"❌ Valor inválido recibido\";\n} else if (valor > 2000) {\n    msg.payload = \"🌧️ Notificación de lluvia:\\n¡Está lloviendo!\";\n} else {\n    msg.payload = \"☀️ Notificación de lluvia:\\nNo está lloviendo.\";\n}\n\nreturn msg;\n",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 400,
+        "y": 260,
+        "wires": [
+            [
+                "172ade43e97eeaf0"
+            ]
+        ]
     }
 ]
