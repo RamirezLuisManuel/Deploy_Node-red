@@ -24,6 +24,14 @@
         "env": []
     },
     {
+        "id": "0f86c3ca249aafbb",
+        "type": "tab",
+        "label": "Sensor humedad del suelo",
+        "disabled": false,
+        "info": "",
+        "env": []
+    },
+    {
         "id": "58e8acd2af0fc2ef",
         "type": "mqtt-broker",
         "name": "broker.emqx.io",
@@ -524,5 +532,91 @@
                 "172ade43e97eeaf0"
             ]
         ]
+    },
+    {
+        "id": "b29bb0e973373857",
+        "type": "mqtt in",
+        "z": "0f86c3ca249aafbb",
+        "name": "Sensor humedad del suelo",
+        "topic": "sensor/humedad",
+        "qos": "2",
+        "datatype": "auto-detect",
+        "broker": "58e8acd2af0fc2ef",
+        "nl": false,
+        "rap": true,
+        "rh": 0,
+        "inputs": 0,
+        "x": 190,
+        "y": 180,
+        "wires": [
+            [
+                "d18da6028e201da1"
+            ]
+        ]
+    },
+    {
+        "id": "e69d5fdb31334ce2",
+        "type": "postgresql",
+        "z": "0f86c3ca249aafbb",
+        "name": "",
+        "query": "INSERT INTO sensor_details (sensor_id, user_id, value) VALUES ('2','1','{{{msg.payload}}}');",
+        "postgreSQLConfig": "0db620e6516a50ee",
+        "split": false,
+        "rowsPerMsg": 1,
+        "outputs": 1,
+        "x": 630,
+        "y": 180,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "d18da6028e201da1",
+        "type": "function",
+        "z": "0f86c3ca249aafbb",
+        "name": "function 2",
+        "func": "let rawValue = Number(msg.payload);\n\nlet humedad = Math.round(((4095 - rawValue) / 4095) * 100);\n\nmsg.payload = humedad; \nmsg.topic = \"Humedad\";\nreturn msg;\n",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 420,
+        "y": 180,
+        "wires": [
+            [
+                "e69d5fdb31334ce2",
+                "3c3db10294ce8de2"
+            ]
+        ]
+    },
+    {
+        "id": "3c3db10294ce8de2",
+        "type": "ui_gauge",
+        "z": "0f86c3ca249aafbb",
+        "name": "",
+        "group": "ui_dashboard_group",
+        "order": 3,
+        "width": 0,
+        "height": 0,
+        "gtype": "gage",
+        "title": "Humedad del Suelo",
+        "label": "units",
+        "format": "{{value}}",
+        "min": 0,
+        "max": "100",
+        "colors": [
+            "#00b500",
+            "#e6e600",
+            "#ca3838"
+        ],
+        "seg1": "",
+        "seg2": "",
+        "diff": false,
+        "className": "",
+        "x": 650,
+        "y": 260,
+        "wires": []
     }
 ]
