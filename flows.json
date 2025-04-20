@@ -550,7 +550,8 @@
         "y": 180,
         "wires": [
             [
-                "d18da6028e201da1"
+                "d18da6028e201da1",
+                "e69d5fdb31334ce2"
             ]
         ]
     },
@@ -582,17 +583,16 @@
         "initialize": "",
         "finalize": "",
         "libs": [],
-        "x": 420,
-        "y": 180,
+        "x": 400,
+        "y": 220,
         "wires": [
             [
-                "e69d5fdb31334ce2",
-                "3c3db10294ce8de2"
+                "7be721161058aebf"
             ]
         ]
     },
     {
-        "id": "3c3db10294ce8de2",
+        "id": "7be721161058aebf",
         "type": "ui_gauge",
         "z": "0f86c3ca249aafbb",
         "name": "",
