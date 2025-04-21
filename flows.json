@@ -40,6 +40,14 @@
         "env": []
     },
     {
+        "id": "6797fa4f360495b0",
+        "type": "tab",
+        "label": "Control de Alarma",
+        "disabled": false,
+        "info": "Flujo para controlar la alarma del sistema",
+        "env": []
+    },
+    {
         "id": "58e8acd2af0fc2ef",
         "type": "mqtt-broker",
         "name": "broker.emqx.io",
@@ -291,9 +299,9 @@
         "ssl": false
     },
     {
-        "id": "0bc6ac9c94747842",
+        "id": "6bf9f274d17d8046",
         "type": "ui_spacer",
-        "z": "ebd507082ead5a6e",
+        "z": "ae5f1b6d080b4834",
         "name": "spacer",
         "group": "ui_dashboard_group",
         "order": 1,
@@ -301,9 +309,9 @@
         "height": 1
     },
     {
-        "id": "71f5fa0d744e5fd6",
+        "id": "3560f37886e79243",
         "type": "ui_spacer",
-        "z": "ebd507082ead5a6e",
+        "z": "ae5f1b6d080b4834",
         "name": "spacer",
         "group": "ui_dashboard_group",
         "order": 3,
@@ -311,9 +319,9 @@
         "height": 1
     },
     {
-        "id": "5e3766c03cb998b7",
+        "id": "c07a2131511bb88d",
         "type": "ui_spacer",
-        "z": "ebd507082ead5a6e",
+        "z": "ae5f1b6d080b4834",
         "name": "spacer",
         "group": "ui_dashboard_group",
         "order": 5,
@@ -321,9 +329,9 @@
         "height": 1
     },
     {
-        "id": "ced5eba64f6c8b05",
+        "id": "48738bed86c4c319",
         "type": "ui_spacer",
-        "z": "ebd507082ead5a6e",
+        "z": "ae5f1b6d080b4834",
         "name": "spacer",
         "group": "ui_dashboard_group",
         "order": 6,
@@ -331,9 +339,9 @@
         "height": 1
     },
     {
-        "id": "b6efd928e6559721",
+        "id": "3b115ad30fe64aea",
         "type": "ui_spacer",
-        "z": "ebd507082ead5a6e",
+        "z": "ae5f1b6d080b4834",
         "name": "spacer",
         "group": "ui_dashboard_group",
         "order": 7,
@@ -341,9 +349,9 @@
         "height": 1
     },
     {
-        "id": "f198b4ea0cf0566b",
+        "id": "e072bd2878d872e2",
         "type": "ui_spacer",
-        "z": "ebd507082ead5a6e",
+        "z": "ae5f1b6d080b4834",
         "name": "spacer",
         "group": "ui_dashboard_group",
         "order": 8,
@@ -351,9 +359,9 @@
         "height": 1
     },
     {
-        "id": "75b38fd02d4ab7b9",
+        "id": "5188d73f8d0a3092",
         "type": "ui_spacer",
-        "z": "ebd507082ead5a6e",
+        "z": "ae5f1b6d080b4834",
         "name": "spacer",
         "group": "ui_dashboard_group",
         "order": 9,
@@ -361,9 +369,9 @@
         "height": 1
     },
     {
-        "id": "a2893383c928d6c4",
+        "id": "0ba80aae03a62be8",
         "type": "ui_spacer",
-        "z": "ebd507082ead5a6e",
+        "z": "ae5f1b6d080b4834",
         "name": "spacer",
         "group": "ui_dashboard_group",
         "order": 10,
@@ -371,9 +379,9 @@
         "height": 1
     },
     {
-        "id": "05e3c9e6cd91b8fd",
+        "id": "e6c69df32ba899bd",
         "type": "ui_spacer",
-        "z": "ebd507082ead5a6e",
+        "z": "ae5f1b6d080b4834",
         "name": "spacer",
         "group": "ui_dashboard_group",
         "order": 12,
@@ -381,9 +389,9 @@
         "height": 1
     },
     {
-        "id": "321843d177f9a74f",
+        "id": "f775856599f4872a",
         "type": "ui_spacer",
-        "z": "ebd507082ead5a6e",
+        "z": "ae5f1b6d080b4834",
         "name": "spacer",
         "group": "ui_dashboard_group",
         "order": 16,
@@ -391,32 +399,32 @@
         "height": 1
     },
     {
-        "id": "b21ec20cd43e08f0",
+        "id": "11befc0ecba31323",
         "type": "ui_spacer",
-        "z": "ebd507082ead5a6e",
+        "z": "ae5f1b6d080b4834",
         "name": "spacer",
         "group": "ui_dashboard_group",
         "order": 17,
-        "width": 6,
+        "width": 3,
         "height": 1
     },
     {
-        "id": "fb8567fb59cdcb90",
+        "id": "8b71f66d19529f61",
         "type": "ui_spacer",
-        "z": "ebd507082ead5a6e",
+        "z": "ae5f1b6d080b4834",
         "name": "spacer",
         "group": "ui_dashboard_group",
-        "order": 19,
-        "width": 6,
+        "order": 21,
+        "width": 3,
         "height": 1
     },
     {
-        "id": "620cb0debb1fbe7d",
+        "id": "8922ae65bce364df",
         "type": "ui_spacer",
-        "z": "ebd507082ead5a6e",
+        "z": "ae5f1b6d080b4834",
         "name": "spacer",
         "group": "ui_dashboard_group",
-        "order": 20,
+        "order": 22,
         "width": 15,
         "height": 1
     },
@@ -493,7 +501,7 @@
         "z": "ebd507082ead5a6e",
         "name": "",
         "group": "ui_dashboard_group",
-        "order": 21,
+        "order": 23,
         "width": 0,
         "height": 0,
         "label": "Gasto de agua por semana",
@@ -925,7 +933,7 @@
         "type": "postgresql",
         "z": "ae5f1b6d080b4834",
         "name": "Insertar temperatura",
-        "query": "INSERT INTO sensor_details (sensor_id, user_id, value) VALUES ('3','1','{{{msg.payload}}}');",
+        "query": "INSERT INTO sensor_details (sensor_id, user_id, value) VALUES ('5','1','{{{msg.payload}}}');",
         "postgreSQLConfig": "0db620e6516a50ee",
         "split": false,
         "rowsPerMsg": 1,
@@ -941,7 +949,7 @@
         "type": "postgresql",
         "z": "ae5f1b6d080b4834",
         "name": "Insertar humedad ambiente",
-        "query": "INSERT INTO sensor_details (sensor_id, user_id, value) VALUES ('4','1','{{{msg.payload}}}');",
+        "query": "INSERT INTO sensor_details (sensor_id, user_id, value) VALUES ('6','1','{{{msg.payload}}}');",
         "postgreSQLConfig": "0db620e6516a50ee",
         "split": false,
         "rowsPerMsg": 1,
@@ -957,7 +965,7 @@
         "type": "postgresql",
         "z": "ae5f1b6d080b4834",
         "name": "Insertar estado alarma",
-        "query": "INSERT INTO sensor_details (sensor_id, user_id, value) VALUES ('5','1','{{{msg.payload}}}');",
+        "query": "INSERT INTO actuator_details (actuator_id, user_id, value) VALUES ('2','1','{{{msg.payload}}}');",
         "postgreSQLConfig": "0db620e6516a50ee",
         "split": false,
         "rowsPerMsg": 1,
@@ -1028,11 +1036,11 @@
         "id": "indicador-alarma",
         "type": "ui_led",
         "z": "ae5f1b6d080b4834",
-        "order": 18,
+        "order": 20,
         "group": "ui_dashboard_group",
-        "width": 3,
+        "width": 1,
         "height": 1,
-        "label": "Alarma",
+        "label": "",
         "labelPlacement": "left",
         "labelAlignment": "left",
         "colorForValue": [
@@ -1054,5 +1062,166 @@
         "x": 640,
         "y": 300,
         "wires": []
+    },
+    {
+        "id": "f7ffd36a00c20d3a",
+        "type": "ui_button",
+        "z": "6797fa4f360495b0",
+        "name": "Apagar Alarma",
+        "group": "ui_dashboard_group",
+        "order": 18,
+        "width": 4,
+        "height": 1,
+        "passthru": false,
+        "label": "Apagar Alarma",
+        "tooltip": "",
+        "color": "",
+        "bgcolor": "#f44336",
+        "className": "",
+        "icon": "fa-bell-slash",
+        "payload": "{\"comando\":\"apagar_alarma\"}",
+        "payloadType": "json",
+        "topic": "control",
+        "topicType": "str",
+        "x": 130,
+        "y": 80,
+        "wires": [
+            [
+                "d601c59e3b464a0e"
+            ]
+        ]
+    },
+    {
+        "id": "d601c59e3b464a0e",
+        "type": "mqtt out",
+        "z": "6797fa4f360495b0",
+        "name": "Enviar comando a ESP32",
+        "topic": "utng/planta/control",
+        "qos": "1",
+        "retain": "false",
+        "respTopic": "",
+        "contentType": "",
+        "userProps": "",
+        "correl": "",
+        "expiry": "",
+        "broker": "58e8acd2af0fc2ef",
+        "x": 380,
+        "y": 80,
+        "wires": []
+    },
+    {
+        "id": "0ac20ee2d43b47d9",
+        "type": "mqtt in",
+        "z": "6797fa4f360495b0",
+        "name": "Monitorear estado alarma",
+        "topic": "utng/planta/sensores",
+        "qos": "2",
+        "datatype": "auto-detect",
+        "broker": "58e8acd2af0fc2ef",
+        "nl": false,
+        "rap": true,
+        "rh": 0,
+        "inputs": 0,
+        "x": 150,
+        "y": 160,
+        "wires": [
+            [
+                "7c6b72610f82d451"
+            ]
+        ]
+    },
+    {
+        "id": "7c6b72610f82d451",
+        "type": "function",
+        "z": "6797fa4f360495b0",
+        "name": "Procesar estado alarma",
+        "func": "// Convertir el mensaje a objeto si viene como string\nlet datos;\ntry {\n    if (typeof msg.payload === 'string') {\n        datos = JSON.parse(msg.payload);\n    } else {\n        datos = msg.payload;\n    }\n    \n    // Verificar si la alarma está activa\n    if (datos.alarma_activa) {\n        // Si la alarma está activa, habilitar el botón\n        return {\n            payload: true,\n            topic: \"enable\"\n        };\n    } else {\n        // Si la alarma está inactiva, deshabilitar el botón\n        return {\n            payload: false,\n            topic: \"enable\"\n        };\n    }\n} catch(e) {\n    node.error(\"Error al procesar datos: \" + e.message);\n    return null;\n}",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 390,
+        "y": 160,
+        "wires": [
+            [
+                "adea9450bdc2f39a"
+            ]
+        ]
+    },
+    {
+        "id": "adea9450bdc2f39a",
+        "type": "ui_ui_control",
+        "z": "6797fa4f360495b0",
+        "name": "Controlar visibilidad botón",
+        "events": "all",
+        "x": 650,
+        "y": 160,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "69f4a3f4d5d4f4d9",
+        "type": "ui_text",
+        "z": "6797fa4f360495b0",
+        "group": "ui_dashboard_group",
+        "order": 19,
+        "width": 4,
+        "height": 1,
+        "name": "Estado alarma texto",
+        "label": "Estado alarma:",
+        "format": "{{msg.payload}}",
+        "layout": "row-spread",
+        "className": "",
+        "style": false,
+        "font": "",
+        "fontSize": 16,
+        "color": "#000000",
+        "x": 650,
+        "y": 220,
+        "wires": []
+    },
+    {
+        "id": "54105e40592d567d",
+        "type": "function",
+        "z": "6797fa4f360495b0",
+        "name": "Formatear texto",
+        "func": "// Convertir el mensaje a objeto si viene como string\nlet datos;\ntry {\n    if (typeof msg.payload === 'string') {\n        datos = JSON.parse(msg.payload);\n    } else {\n        datos = msg.payload;\n    }\n    \n    // Verificar si la alarma está activa\n    if (datos.alarma_activa) {\n        // Si la alarma está activa\n        msg.payload = \"ACTIVA\";\n        msg.color = \"#ff0000\";\n    } else {\n        // Si la alarma está inactiva\n        msg.payload = \"INACTIVA\";\n        msg.color = \"#009900\";\n    }\n    \n    return msg;\n} catch(e) {\n    node.error(\"Error al procesar datos: \" + e.message);\n    return null;\n}",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 390,
+        "y": 220,
+        "wires": [
+            [
+                "69f4a3f4d5d4f4d9"
+            ]
+        ]
+    },
+    {
+        "id": "d93634d8c26e12a9",
+        "type": "mqtt in",
+        "z": "6797fa4f360495b0",
+        "name": "Estado texto alarma",
+        "topic": "utng/planta/sensores",
+        "qos": "2",
+        "datatype": "auto-detect",
+        "broker": "58e8acd2af0fc2ef",
+        "nl": false,
+        "rap": true,
+        "rh": 0,
+        "inputs": 0,
+        "x": 150,
+        "y": 220,
+        "wires": [
+            [
+                "54105e40592d567d"
+            ]
+        ]
     }
 ]
