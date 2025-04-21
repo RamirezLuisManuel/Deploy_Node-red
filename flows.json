@@ -24,9 +24,17 @@
         "env": []
     },
     {
-        "id": "0f86c3ca249aafbb",
+        "id": "5d9f58b548c58954",
         "type": "tab",
         "label": "Sensor humedad del suelo",
+        "disabled": false,
+        "info": "",
+        "env": []
+    },
+    {
+        "id": "ae5f1b6d080b4834",
+        "type": "tab",
+        "label": "Sensor DHT11",
         "disabled": false,
         "info": "",
         "env": []
@@ -254,6 +262,33 @@
         "order": 4,
         "width": 1,
         "height": 1
+    },
+    {
+        "id": "broker-config",
+        "type": "mqtt-broker",
+        "name": "MQTT Broker",
+        "broker": "broker.emqx.io",
+        "port": "1883",
+        "clientid": "node-red-client",
+        "usetls": false,
+        "compatmode": false,
+        "keepalive": "60",
+        "cleansession": true,
+        "birthTopic": "",
+        "birthQos": "0",
+        "birthPayload": "",
+        "closeTopic": "",
+        "closeQos": "0",
+        "closePayload": "",
+        "willTopic": "",
+        "willQos": "0",
+        "willPayload": ""
+    },
+    {
+        "id": "postgres-config",
+        "type": "postgresdb",
+        "port": "5432",
+        "ssl": false
     },
     {
         "id": "7f12a8951ab97da4",
@@ -534,9 +569,9 @@
         ]
     },
     {
-        "id": "b29bb0e973373857",
+        "id": "c9de9db419d9c85d",
         "type": "mqtt in",
-        "z": "0f86c3ca249aafbb",
+        "z": "5d9f58b548c58954",
         "name": "Sensor humedad del suelo",
         "topic": "sensor/humedad",
         "qos": "2",
@@ -550,15 +585,15 @@
         "y": 180,
         "wires": [
             [
-                "d18da6028e201da1",
-                "e69d5fdb31334ce2"
+                "a8dc9306e97550a7",
+                "9d3427d049521508"
             ]
         ]
     },
     {
-        "id": "e69d5fdb31334ce2",
+        "id": "9d3427d049521508",
         "type": "postgresql",
-        "z": "0f86c3ca249aafbb",
+        "z": "5d9f58b548c58954",
         "name": "",
         "query": "INSERT INTO sensor_details (sensor_id, user_id, value) VALUES ('2','1','{{{msg.payload}}}');",
         "postgreSQLConfig": "0db620e6516a50ee",
@@ -572,9 +607,9 @@
         ]
     },
     {
-        "id": "d18da6028e201da1",
+        "id": "a8dc9306e97550a7",
         "type": "function",
-        "z": "0f86c3ca249aafbb",
+        "z": "5d9f58b548c58954",
         "name": "function 2",
         "func": "let rawValue = Number(msg.payload);\n\nlet humedad = Math.round(((4095 - rawValue) / 4095) * 100);\n\nmsg.payload = humedad; \nmsg.topic = \"Humedad\";\nreturn msg;\n",
         "outputs": 1,
@@ -587,14 +622,14 @@
         "y": 220,
         "wires": [
             [
-                "7be721161058aebf"
+                "13a3d01dcc241366"
             ]
         ]
     },
     {
-        "id": "7be721161058aebf",
+        "id": "13a3d01dcc241366",
         "type": "ui_gauge",
-        "z": "0f86c3ca249aafbb",
+        "z": "5d9f58b548c58954",
         "name": "",
         "group": "ui_dashboard_group",
         "order": 3,
@@ -617,6 +652,277 @@
         "className": "",
         "x": 650,
         "y": 260,
+        "wires": []
+    },
+    {
+        "id": "mqtt-in-humedad",
+        "type": "mqtt in",
+        "z": "5d9f58b548c58954",
+        "name": "Sensor humedad del suelo 2",
+        "topic": "utng/planta/sensores",
+        "qos": "2",
+        "datatype": "auto-detect",
+        "broker": "58e8acd2af0fc2ef",
+        "nl": false,
+        "rap": true,
+        "rh": 0,
+        "inputs": 0,
+        "x": 140,
+        "y": 400,
+        "wires": [
+            [
+                "function-humedad"
+            ]
+        ]
+    },
+    {
+        "id": "function-humedad",
+        "type": "function",
+        "z": "5d9f58b548c58954",
+        "name": "Extraer humedad del suelo",
+        "func": "// Convertir el mensaje a objeto si viene como string\nlet datos;\ntry {\n    if (typeof msg.payload === 'string') {\n        datos = JSON.parse(msg.payload);\n    } else {\n        datos = msg.payload;\n    }\n    \n    // Extraer el valor de humedad del suelo\n    const humedad = datos.humedad_suelo;\n    \n    // Verificar que sea un número válido\n    if (humedad !== undefined && !isNaN(humedad)) {\n        msg.payload = humedad;\n        msg.topic = \"Humedad Suelo\";\n        return msg;\n    } else {\n        node.warn(\"Valor de humedad inválido o no encontrado\");\n        return null;\n    }\n} catch(e) {\n    node.error(\"Error al procesar datos: \" + e.message);\n    return null;\n}",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 400,
+        "y": 400,
+        "wires": [
+            [
+                "postgresql-humedad",
+                "gauge-humedad"
+            ]
+        ]
+    },
+    {
+        "id": "postgresql-humedad",
+        "type": "postgresql",
+        "z": "5d9f58b548c58954",
+        "name": "Insertar humedad del suelo",
+        "query": "INSERT INTO sensor_details (sensor_id, user_id, value) VALUES ('4','1','{{{msg.payload}}}');",
+        "postgreSQLConfig": "0db620e6516a50ee",
+        "split": false,
+        "rowsPerMsg": 1,
+        "outputs": 1,
+        "x": 680,
+        "y": 400,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "gauge-humedad",
+        "type": "ui_gauge",
+        "z": "5d9f58b548c58954",
+        "name": "",
+        "group": "ui_dashboard_group",
+        "order": 3,
+        "width": 0,
+        "height": 0,
+        "gtype": "gage",
+        "title": "Humedad del Suelo 2",
+        "label": "%",
+        "format": "{{value}}",
+        "min": 0,
+        "max": "100",
+        "colors": [
+            "#ca3838",
+            "#e6e600",
+            "#00b500"
+        ],
+        "seg1": "30",
+        "seg2": "60",
+        "diff": false,
+        "className": "",
+        "x": 660,
+        "y": 480,
+        "wires": []
+    },
+    {
+        "id": "mqtt-in-dht11",
+        "type": "mqtt in",
+        "z": "ae5f1b6d080b4834",
+        "name": "Sensor DHT11 y Alarma",
+        "topic": "utng/planta/sensores",
+        "qos": "2",
+        "datatype": "auto-detect",
+        "broker": "58e8acd2af0fc2ef",
+        "nl": false,
+        "rap": true,
+        "rh": 0,
+        "inputs": 0,
+        "x": 140,
+        "y": 60,
+        "wires": [
+            [
+                "function-dht11-extract"
+            ]
+        ]
+    },
+    {
+        "id": "function-dht11-extract",
+        "type": "function",
+        "z": "ae5f1b6d080b4834",
+        "name": "Extraer datos DHT11 y estado alarma",
+        "func": "// Convertir el mensaje a objeto si viene como string\nlet datos;\ntry {\n    if (typeof msg.payload === 'string') {\n        datos = JSON.parse(msg.payload);\n    } else {\n        datos = msg.payload;\n    }\n    \n    // Crear mensajes separados para temperatura y humedad ambiente\n    let msgTemp = { \n        payload: datos.temperatura,\n        topic: \"Temperatura\"\n    };\n    \n    let msgHum = { \n        payload: datos.humedad_ambiente,\n        topic: \"Humedad Ambiente\"\n    };\n    \n    let msgAlarma = { \n        payload: datos.alarma_activa,\n        topic: \"Estado Alarma\"\n    };\n    \n    // Retornar los tres mensajes para procesarlos por separado\n    return [msgTemp, msgHum, msgAlarma];\n    \n} catch(e) {\n    node.error(\"Error al procesar datos: \" + e.message);\n    return [null, null, null];\n}",
+        "outputs": 3,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 330,
+        "y": 140,
+        "wires": [
+            [
+                "gauge-temperatura",
+                "postgresql-temperatura"
+            ],
+            [
+                "gauge-humedad-amb",
+                "postgresql-humedad-amb"
+            ],
+            [
+                "indicador-alarma",
+                "postgresql-alarma"
+            ]
+        ]
+    },
+    {
+        "id": "postgresql-temperatura",
+        "type": "postgresql",
+        "z": "ae5f1b6d080b4834",
+        "name": "Insertar temperatura",
+        "query": "INSERT INTO sensor_details (sensor_id, user_id, value) VALUES ('3','1','{{{msg.payload}}}');",
+        "postgreSQLConfig": "0db620e6516a50ee",
+        "split": false,
+        "rowsPerMsg": 1,
+        "outputs": 1,
+        "x": 700,
+        "y": 120,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "postgresql-humedad-amb",
+        "type": "postgresql",
+        "z": "ae5f1b6d080b4834",
+        "name": "Insertar humedad ambiente",
+        "query": "INSERT INTO sensor_details (sensor_id, user_id, value) VALUES ('4','1','{{{msg.payload}}}');",
+        "postgreSQLConfig": "0db620e6516a50ee",
+        "split": false,
+        "rowsPerMsg": 1,
+        "outputs": 1,
+        "x": 700,
+        "y": 240,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "postgresql-alarma",
+        "type": "postgresql",
+        "z": "ae5f1b6d080b4834",
+        "name": "Insertar estado alarma",
+        "query": "INSERT INTO sensor_details (sensor_id, user_id, value) VALUES ('5','1','{{{msg.payload}}}');",
+        "postgreSQLConfig": "0db620e6516a50ee",
+        "split": false,
+        "rowsPerMsg": 1,
+        "outputs": 1,
+        "x": 620,
+        "y": 360,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "gauge-temperatura",
+        "type": "ui_gauge",
+        "z": "ae5f1b6d080b4834",
+        "name": "",
+        "group": "ui_dashboard_group",
+        "order": 4,
+        "width": 0,
+        "height": 0,
+        "gtype": "gage",
+        "title": "Temperatura",
+        "label": "°C",
+        "format": "{{value}}",
+        "min": 0,
+        "max": "50",
+        "colors": [
+            "#00b500",
+            "#e6e600",
+            "#ca3838"
+        ],
+        "seg1": "15",
+        "seg2": "30",
+        "diff": false,
+        "className": "",
+        "x": 670,
+        "y": 40,
+        "wires": []
+    },
+    {
+        "id": "gauge-humedad-amb",
+        "type": "ui_gauge",
+        "z": "ae5f1b6d080b4834",
+        "name": "",
+        "group": "ui_dashboard_group",
+        "order": 5,
+        "width": 0,
+        "height": 0,
+        "gtype": "gage",
+        "title": "Humedad Ambiente",
+        "label": "%",
+        "format": "{{value}}",
+        "min": 0,
+        "max": "100",
+        "colors": [
+            "#ca3838",
+            "#e6e600",
+            "#00b500"
+        ],
+        "seg1": "30",
+        "seg2": "60",
+        "diff": false,
+        "className": "",
+        "x": 710,
+        "y": 180,
+        "wires": []
+    },
+    {
+        "id": "indicador-alarma",
+        "type": "ui_led",
+        "z": "ae5f1b6d080b4834",
+        "order": 6,
+        "group": "ui_dashboard_group",
+        "width": "2",
+        "height": "1",
+        "label": "Alarma",
+        "labelPlacement": "left",
+        "labelAlignment": "left",
+        "colorForValue": [
+            {
+                "color": "#000000",
+                "value": "false",
+                "valueType": "bool"
+            },
+            {
+                "color": "#ff0000",
+                "value": "true",
+                "valueType": "bool"
+            }
+        ],
+        "allowColorForValueInMessage": false,
+        "shape": "circle",
+        "showGlow": true,
+        "name": "",
+        "x": 640,
+        "y": 300,
         "wires": []
     }
 ]
