@@ -1126,27 +1126,7 @@
         "y": 160,
         "wires": [
             [
-                "7c6b72610f82d451"
-            ]
-        ]
-    },
-    {
-        "id": "7c6b72610f82d451",
-        "type": "function",
-        "z": "6797fa4f360495b0",
-        "name": "Procesar estado alarma",
-        "func": "// Convertir el mensaje a objeto si viene como string\nlet datos;\ntry {\n    if (typeof msg.payload === 'string') {\n        datos = JSON.parse(msg.payload);\n    } else {\n        datos = msg.payload;\n    }\n    \n    // Verificar si la alarma está activa\n    if (datos.alarma_activa) {\n        // Si la alarma está activa, habilitar el botón\n        return {\n            payload: true,\n            topic: \"enable\"\n        };\n    } else {\n        // Si la alarma está inactiva, deshabilitar el botón\n        return {\n            payload: false,\n            topic: \"enable\"\n        };\n    }\n} catch(e) {\n    node.error(\"Error al procesar datos: \" + e.message);\n    return null;\n}",
-        "outputs": 1,
-        "timeout": 0,
-        "noerr": 0,
-        "initialize": "",
-        "finalize": "",
-        "libs": [],
-        "x": 390,
-        "y": 160,
-        "wires": [
-            [
-                "adea9450bdc2f39a"
+                "6c41652f6cae43fd"
             ]
         ]
     },
@@ -1184,26 +1164,6 @@
         "wires": []
     },
     {
-        "id": "54105e40592d567d",
-        "type": "function",
-        "z": "6797fa4f360495b0",
-        "name": "Formatear texto",
-        "func": "// Convertir el mensaje a objeto si viene como string\nlet datos;\ntry {\n    if (typeof msg.payload === 'string') {\n        datos = JSON.parse(msg.payload);\n    } else {\n        datos = msg.payload;\n    }\n    \n    // Verificar si la alarma está activa\n    if (datos.alarma_activa) {\n        // Si la alarma está activa\n        msg.payload = \"ACTIVA\";\n        msg.color = \"#ff0000\";\n    } else {\n        // Si la alarma está inactiva\n        msg.payload = \"INACTIVA\";\n        msg.color = \"#009900\";\n    }\n    \n    return msg;\n} catch(e) {\n    node.error(\"Error al procesar datos: \" + e.message);\n    return null;\n}",
-        "outputs": 1,
-        "timeout": 0,
-        "noerr": 0,
-        "initialize": "",
-        "finalize": "",
-        "libs": [],
-        "x": 390,
-        "y": 220,
-        "wires": [
-            [
-                "69f4a3f4d5d4f4d9"
-            ]
-        ]
-    },
-    {
         "id": "d93634d8c26e12a9",
         "type": "mqtt in",
         "z": "6797fa4f360495b0",
@@ -1220,7 +1180,47 @@
         "y": 220,
         "wires": [
             [
-                "54105e40592d567d"
+                "a946648659cb842c"
+            ]
+        ]
+    },
+    {
+        "id": "6c41652f6cae43fd",
+        "type": "function",
+        "z": "6797fa4f360495b0",
+        "name": "Procesar estado alarma",
+        "func": "// Convertir el mensaje a objeto si viene como string\nlet datos;\ntry {\n    if (typeof msg.payload === 'string') {\n        datos = JSON.parse(msg.payload);\n    } else {\n        datos = msg.payload;\n    }\n    \n    // Verificar si la alarma está activa\n    if (datos.alarma_activa) {\n        // Si la alarma está activa, habilitar el botón\n        return {\n            payload: true,\n            topic: \"enable\"\n        };\n    } else {\n        // Si la alarma está inactiva, deshabilitar el botón\n        return {\n            payload: false,\n            topic: \"enable\"\n        };\n    }\n} catch(e) {\n    node.error(\"Error al procesar datos: \" + e.message);\n    return null;\n}",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 390,
+        "y": 160,
+        "wires": [
+            [
+                "adea9450bdc2f39a"
+            ]
+        ]
+    },
+    {
+        "id": "a946648659cb842c",
+        "type": "function",
+        "z": "6797fa4f360495b0",
+        "name": "Formatear texto",
+        "func": "// Convertir el mensaje a objeto si viene como string\nlet datos;\ntry {\n    if (typeof msg.payload === 'string') {\n        datos = JSON.parse(msg.payload);\n    } else {\n        datos = msg.payload;\n    }\n    \n    // Verificar si la alarma está activa\n    if (datos.alarma_activa) {\n        // Si la alarma está activa\n        msg.payload = \"ACTIVA\";\n        msg.color = \"#ff0000\";\n    } else if (datos.desactivada_manualmente) {\n        // Si la alarma fue desactivada manualmente\n        msg.payload = \"APAGADA MANUALMENTE\";\n        msg.color = \"#0000ff\";\n    } else {\n        // Si la alarma está inactiva normalmente\n        msg.payload = \"INACTIVA\";\n        msg.color = \"#009900\";\n    }\n    \n    return msg;\n} catch(e) {\n    node.error(\"Error al procesar datos: \" + e.message);\n    return null;\n}",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 390,
+        "y": 220,
+        "wires": [
+            [
+                "69f4a3f4d5d4f4d9"
             ]
         ]
     }
