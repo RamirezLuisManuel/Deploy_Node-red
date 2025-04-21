@@ -5,7 +5,9 @@
     "dependencies": {
       "node-red": "^3.0.0",
       "node-red-dashboard": "^3.6.5",
-      "node-red-contrib-postgresql": "^0.14.2"
+      "node-red-contrib-postgresql": "^0.14.2",
+      "node-red-contrib-ui-led": "0.4.11",
+      "node-red-contrib-postgres-multi": "0.2.0"
     },
     "scripts": {
       "start": "node-red -v"
