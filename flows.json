@@ -16,6 +16,22 @@
         "env": []
     },
     {
+        "id": "d3b98b29e74d4538",
+        "type": "tab",
+        "label": "Leds",
+        "disabled": false,
+        "info": "",
+        "env": []
+    },
+    {
+        "id": "0d102514532e526a",
+        "type": "tab",
+        "label": "Control de relvador automatico",
+        "disabled": false,
+        "info": "",
+        "env": []
+    },
+    {
         "id": "201d42be487cd05b",
         "type": "tab",
         "label": "Senso nivel de agua",
@@ -358,7 +374,7 @@
         "label": "L/min",
         "format": "{{value}}",
         "min": 0,
-        "max": 100,
+        "max": "5",
         "colors": [
             "#00b500",
             "#e6e600",
@@ -426,8 +442,8 @@
         "split": false,
         "rowsPerMsg": 1,
         "outputs": 1,
-        "x": 420,
-        "y": 180,
+        "x": 400,
+        "y": 140,
         "wires": [
             []
         ]
@@ -502,44 +518,8 @@
         "correl": "",
         "expiry": "",
         "broker": "58e8acd2af0fc2ef",
-        "x": 730,
-        "y": 240,
-        "wires": []
-    },
-    {
-        "id": "828d5b3339f2bf07",
-        "type": "postgresql",
-        "z": "bdd40c2e4ca0e3d6",
-        "name": "postgress_i5ux",
-        "query": "SELECT value\nFROM sensor_details\nWHERE sensor_id = 2,3,4\nORDER BY record_at DESC;",
-        "postgreSQLConfig": "0db620e6516a50ee",
-        "split": false,
-        "rowsPerMsg": 1,
-        "outputs": 1,
-        "x": 440,
-        "y": 420,
-        "wires": [
-            [
-                "3badfd6d6d5944a4"
-            ]
-        ]
-    },
-    {
-        "id": "dc7fb7c18781d757",
-        "type": "mqtt out",
-        "z": "bdd40c2e4ca0e3d6",
-        "name": "Control Relevador",
-        "topic": "sistema_de_riego_inteligente/placa_1_rele/humedad1",
-        "qos": "2",
-        "retain": "false",
-        "respTopic": "",
-        "contentType": "",
-        "userProps": "",
-        "correl": "",
-        "expiry": "",
-        "broker": "58e8acd2af0fc2ef",
-        "x": 770,
-        "y": 380,
+        "x": 890,
+        "y": 160,
         "wires": []
     },
     {
@@ -556,18 +536,18 @@
                 "vt": "str"
             }
         ],
-        "repeat": "",
+        "repeat": "1",
         "crontab": "",
         "once": true,
         "onceDelay": 0.1,
         "topic": "",
         "payload": "",
         "payloadType": "date",
-        "x": 180,
-        "y": 400,
+        "x": 160,
+        "y": 480,
         "wires": [
             [
-                "828d5b3339f2bf07"
+                "f16da7860e93b1c5"
             ]
         ]
     },
@@ -576,18 +556,128 @@
         "type": "function",
         "z": "bdd40c2e4ca0e3d6",
         "name": "function 3",
-        "func": "let humedad1 = null;\nlet humedad2 = null;\nlet lluvia = null;\n\nfor (let row of msg.payload) {\n    switch (row.sensor_id) {\n        case 1:\n            humedad1 = parseFloat(row.value);\n            break;\n        case 2:\n            humedad2 = parseFloat(row.value);\n            break;\n        case 3:\n            lluvia = parseFloat(row.value);\n            break;\n    }\n}\n\n// Umbrales\nlet umbralHumedad = 40;\nlet hayLluvia = lluvia > 0; // depende de cómo mida el sensor\n\n// Decisión\nif (humedad1 < umbralHumedad && humedad2 < umbralHumedad && !hayLluvia) {\n    msg.payload = \"true\";  // activar riego\n} else {\n    msg.payload = \"false\"; // no activar\n}\n\nmsg.topic = \"sistema_de_riego_inteligente/placa_1_rele/set\";\nreturn msg;\n",
+        "func": "let lluvia = null;\nlet humedad1 = null;\nlet humedad2 = null;\n\n\nfor (let row of msg.payload) {\n    switch (row.sensor_id) {\n        case 2:\n            humedad1 = parseFloat(row.value);\n            break;\n        case 4:\n            humedad2 = parseFloat(row.value);\n            break;\n        case 3:\n            lluvia = parseFloat(row.value);\n            break;\n    }\n}\n\n// Umbrales\nlet umbralHumedad = 10;\nlet hayLluvia = lluvia < 10; // depende de cómo mida el sensor\n\n// Decisión\nif (humedad1 < umbralHumedad && humedad2 < umbralHumedad && hayLluvia) {\n    msg.payload = \"true\";  // activar riego\n} else {\n    msg.payload = \"false\"; // no activar\n}\n\nmsg.topic = \"sistema_de_riego_inteligente/placa_1_rele/auto\";\nreturn msg;\n",
         "outputs": 1,
         "timeout": 0,
         "noerr": 0,
         "initialize": "",
         "finalize": "",
         "libs": [],
-        "x": 600,
-        "y": 460,
+        "x": 640,
+        "y": 420,
         "wires": [
             [
                 "dc7fb7c18781d757"
+            ]
+        ]
+    },
+    {
+        "id": "f16da7860e93b1c5",
+        "type": "postgresql",
+        "z": "bdd40c2e4ca0e3d6",
+        "name": "Humedad 2",
+        "query": "SELECT sensor_id, value\nFROM sensor_details\nWHERE sensor_id IN (2,3,4)\nAND record_at IN (\n    SELECT MAX(record_at)\n    FROM sensor_details\n    WHERE sensor_id IN (2,3,4)\n    GROUP BY sensor_id\n);",
+        "postgreSQLConfig": "0db620e6516a50ee",
+        "split": false,
+        "rowsPerMsg": 1,
+        "outputs": 1,
+        "x": 390,
+        "y": 480,
+        "wires": [
+            [
+                "3badfd6d6d5944a4"
+            ]
+        ]
+    },
+    {
+        "id": "dc7fb7c18781d757",
+        "type": "mqtt out",
+        "z": "bdd40c2e4ca0e3d6",
+        "name": "Control Relevador",
+        "topic": "sistema_de_riego_inteligente/placa_1_rele/auto",
+        "qos": "2",
+        "retain": "false",
+        "respTopic": "",
+        "contentType": "",
+        "userProps": "",
+        "correl": "",
+        "expiry": "",
+        "broker": "58e8acd2af0fc2ef",
+        "x": 890,
+        "y": 360,
+        "wires": []
+    },
+    {
+        "id": "02827aca13ed9688",
+        "type": "postgresql",
+        "z": "d3b98b29e74d4538",
+        "name": "postgress_i5ux",
+        "query": "INSERT INTO actuator_details (actuator_id, user_id, value) VALUES ('4','1','{{{msg.payload}}}');",
+        "postgreSQLConfig": "0db620e6516a50ee",
+        "split": false,
+        "rowsPerMsg": 1,
+        "outputs": 1,
+        "x": 680,
+        "y": 180,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "9b2b4615ecf6e241",
+        "type": "mqtt in",
+        "z": "d3b98b29e74d4538",
+        "name": "",
+        "topic": "sistema_de_riego_inteligente/placa_1_led_azul",
+        "qos": "2",
+        "datatype": "auto-detect",
+        "broker": "58e8acd2af0fc2ef",
+        "nl": false,
+        "rap": true,
+        "rh": 0,
+        "inputs": 0,
+        "x": 300,
+        "y": 180,
+        "wires": [
+            [
+                "02827aca13ed9688"
+            ]
+        ]
+    },
+    {
+        "id": "f944d1feddc29d5a",
+        "type": "postgresql",
+        "z": "d3b98b29e74d4538",
+        "name": "postgress_i5ux",
+        "query": "INSERT INTO actuator_details (actuator_id, user_id, value) VALUES ('3','1','{{{msg.payload}}}');",
+        "postgreSQLConfig": "0db620e6516a50ee",
+        "split": false,
+        "rowsPerMsg": 1,
+        "outputs": 1,
+        "x": 660,
+        "y": 300,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "47a4bbdff88bd79f",
+        "type": "mqtt in",
+        "z": "d3b98b29e74d4538",
+        "name": "",
+        "topic": "sistema_de_riego_inteligente/placa_1_led_rojo",
+        "qos": "2",
+        "datatype": "auto-detect",
+        "broker": "58e8acd2af0fc2ef",
+        "nl": false,
+        "rap": true,
+        "rh": 0,
+        "inputs": 0,
+        "x": 280,
+        "y": 300,
+        "wires": [
+            [
+                "f944d1feddc29d5a"
             ]
         ]
     },
@@ -634,7 +724,7 @@
         "type": "ui_toast",
         "z": "201d42be487cd05b",
         "position": "top right",
-        "displayTime": "3",
+        "displayTime": "5",
         "highlight": "",
         "sendall": true,
         "outputs": 0,
@@ -685,8 +775,7 @@
         "y": 180,
         "wires": [
             [
-                "a8dc9306e97550a7",
-                "9d3427d049521508"
+                "a8dc9306e97550a7"
             ]
         ]
     },
@@ -722,7 +811,8 @@
         "y": 220,
         "wires": [
             [
-                "13a3d01dcc241366"
+                "13a3d01dcc241366",
+                "9d3427d049521508"
             ]
         ]
     },
