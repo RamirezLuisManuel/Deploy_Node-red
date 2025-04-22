@@ -48,6 +48,13 @@
         "env": []
     },
     {
+        "id": "temperatura_notificacion",
+        "type": "tab",
+        "label": "Notificaciones Temperatura",
+        "disabled": false,
+        "info": "Flujo para enviar notificaciones de temperatura baja"
+    },
+    {
         "id": "58e8acd2af0fc2ef",
         "type": "mqtt-broker",
         "name": "broker.emqx.io",
@@ -1223,5 +1230,82 @@
                 "69f4a3f4d5d4f4d9"
             ]
         ]
+    },
+    {
+        "id": "mqtt_temperatura",
+        "type": "mqtt in",
+        "z": "temperatura_notificacion",
+        "name": "Escuchar datos de temperatura",
+        "topic": "utng/planta/sensores",
+        "qos": "2",
+        "datatype": "auto-detect",
+        "broker": "58e8acd2af0fc2ef",
+        "nl": false,
+        "rap": true,
+        "rh": 0,
+        "inputs": 0,
+        "x": 170,
+        "y": 120,
+        "wires": [
+            [
+                "procesar_temperatura"
+            ]
+        ]
+    },
+    {
+        "id": "procesar_temperatura",
+        "type": "function",
+        "z": "temperatura_notificacion",
+        "name": "Verificar temperatura",
+        "func": "// Convertir el mensaje a objeto si viene como string\nlet datos;\ntry {\n    if (typeof msg.payload === 'string') {\n        datos = JSON.parse(msg.payload);\n    } else {\n        datos = msg.payload;\n    }\n    \n    // Obtener el contexto de flujo para mantener el estado\n    let flow = context.flow;\n    \n    // Obtener los estados anteriores del contexto\n    let ultimoEstado = flow.get('estadoTemperatura') || 'normal';\n    \n    // Verificar temperatura actual\n    let estadoActual = datos.temperatura < 20 ? 'baja' : 'normal';\n    \n    // Guardar el nuevo estado\n    flow.set('estadoTemperatura', estadoActual);\n    \n    // Si ha cambiado de normal a baja, enviar alerta\n    if (estadoActual === 'baja' && ultimoEstado === 'normal') {\n        // Crear mensaje para enviar correo\n        return {\n            payload: {\n                temperatura: datos.temperatura,\n                timestamp: new Date().toLocaleString()\n            },\n            topic: \"alerta_temperatura\"\n        };\n    }\n    \n    // No enviar nada si no se cumple la condición\n    return null;\n    \n} catch(e) {\n    node.error(\"Error al procesar datos: \" + e.message);\n    return null;\n}",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 220,
+        "y": 220,
+        "wires": [
+            [
+                "formatear_email"
+            ]
+        ]
+    },
+    {
+        "id": "formatear_email",
+        "type": "template",
+        "z": "temperatura_notificacion",
+        "name": "Formato correo",
+        "field": "payload",
+        "fieldType": "msg",
+        "format": "html",
+        "syntax": "mustache",
+        "template": "<h2>⚠️ ALERTA: Temperatura Baja Detectada</h2>\n<p>Se ha detectado una temperatura por debajo del umbral en tu sistema de monitoreo de riego.</p>\n<hr>\n<p><strong>📊 Temperatura actual:</strong> {{payload.temperatura}}°C</p>\n<p><strong>📅 Fecha y hora:</strong> {{payload.timestamp}}</p>\n<hr>\n<p>🌡️ La temperatura está por debajo de los 20°C, lo cual puede afectar negativamente a tus plantas.</p>\n<p>🌿 Por favor, toma precauciones para proteger tus plantas del frío.</p>\n<p>🚨 Acciones recomendadas:</p>\n<ul>\n  <li>Mover las plantas a un lugar más cálido</li>\n  <li>Utilizar algún sistema de calefacción adicional</li>\n  <li>Cubrir las plantas con algún material protector</li>\n</ul>\n<p>Este mensaje ha sido enviado automáticamente por tu sistema de monitoreo de riego.</p>",
+        "output": "str",
+        "x": 440,
+        "y": 240,
+        "wires": [
+            [
+                "enviar_email"
+            ]
+        ]
+    },
+    {
+        "id": "enviar_email",
+        "type": "e-mail",
+        "z": "temperatura_notificacion",
+        "server": "smtp.gmail.com",
+        "port": "465",
+        "authtype": "BASIC",
+        "saslformat": false,
+        "token": "oauth2Response.access_token",
+        "secure": true,
+        "tls": true,
+        "name": "lopezcesar0428@gmail.com",
+        "dname": "Enviar alerta por correo",
+        "x": 640,
+        "y": 140,
+        "wires": []
     }
 ]
